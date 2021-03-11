@@ -3,6 +3,7 @@ import tkinter.font as font
 import random as rnd
 
 from tkinter import messagebox
+from tkinter import Grid
 from random import shuffle
 
 names = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
@@ -11,9 +12,26 @@ buttons = []
 space_row = 0
 space_col = 0
 frameMenu = tk.Frame(master = window)
-frameMenu.pack()
+frameMenu.grid(row = 0, column = 0, sticky = "NSEW")
 frameGame = tk.Frame(master = window)
-frameGame.pack()
+frameGame.grid(row = 1, column = 0, sticky = "NSEW")
+
+Grid.rowconfigure(window, 0, weight = 1)
+Grid.rowconfigure(window, 1, weight = 1)
+Grid.columnconfigure(window, 0, weight = 1)
+
+Grid.rowconfigure(frameGame, 0, weight = 1)
+Grid.rowconfigure(frameGame, 1, weight = 1)
+Grid.rowconfigure(frameGame, 2, weight = 1)
+Grid.rowconfigure(frameGame, 3, weight = 1)
+Grid.columnconfigure(frameGame, 0, weight = 1)
+Grid.columnconfigure(frameGame, 1, weight = 1)
+Grid.columnconfigure(frameGame, 2, weight = 1)
+Grid.columnconfigure(frameGame, 3, weight = 1)
+
+Grid.rowconfigure(frameMenu, 0, weight = 1)
+Grid.columnconfigure(frameMenu, 0, weight = 1)
+Grid.columnconfigure(frameMenu, 1, weight = 1)
 
 class Callback:
     def __init__(self, func, button):
@@ -76,7 +94,7 @@ def fill():
                            font = font.Font(size = 30),
                            text = str(name))
         button["command"] = Callback(move, button)
-        button.grid(row = i // 4, column = i % 4)
+        button.grid(row = i // 4, column = i % 4, sticky = "NSEW")
         buttons.append(button)
         i += 1
 
@@ -97,14 +115,14 @@ new = tk.Button(master = frameMenu,
                 font = font.Font(size = 30),
                 text = "New")
 new["command"] = renew
-new.grid(row = 0, column = 0)
+new.grid(row = 0, column = 0, sticky = "NSEW")
 ex = tk.Button(master = frameMenu,
                height = 1,
                width = 7,
                font = font.Font(size = 30),
                text = "Exit")
 ex["command"] = end
-ex.grid(row = 0, column = 1)
+ex.grid(row = 0, column = 1, sticky = "NSEW")
 fill()
 window.update_idletasks()
 window.minsize(window.winfo_width(), window.winfo_height())
