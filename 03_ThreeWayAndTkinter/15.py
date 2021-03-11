@@ -50,7 +50,19 @@ def move(button):
 def fill():
     global space_col
     global space_row
-    shuffle(names)
+    prove = 1
+    while prove % 2 == 1:
+        shuffle(names)
+        prove = 0
+        m = 0
+        for m in range(0, 16):
+            num = names[m]
+            for n in range(m + 1, 16):
+                if names[n] < num and names[n] != 0:
+                    prove = prove + 1
+        for m in range(0, 16):
+            if names[m] == 0:
+                prove += m // 4 + 1
     i = 0
     for name in names:
         if name == 0:
