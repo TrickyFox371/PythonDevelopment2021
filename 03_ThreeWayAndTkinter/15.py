@@ -1,16 +1,18 @@
 import tkinter as tk
+import tkinter.font as font
 import random as rnd
 
 from tkinter import messagebox
+from random import shuffle
 
 names = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 window = tk.Tk()
 buttons = []
 space_row = 0
 space_col = 0
-frameMenu = tk.Frame(master = window, width = 100, height = 100)
+frameMenu = tk.Frame(master = window)
 frameMenu.pack()
-frameGame = tk.Frame(master = window, width = 100, height = 100)
+frameGame = tk.Frame(master = window)
 frameGame.pack()
 
 class Callback:
@@ -48,13 +50,13 @@ def move(button):
 def fill():
     global space_col
     global space_row
-    local_names = names.copy()
-    for i in range(0, 16):
-        name = local_names[rnd.randrange(0, 16 - i)]
-        local_names.remove(name)
+    shuffle(names)
+    i = 0
+    for name in names:
         if name == 0:
             space_row = i // 4
             space_col = i % 4
+            i += 1
             continue
         button = tk.Button(master = frameGame,
                            height = 10,
@@ -63,6 +65,7 @@ def fill():
         button["command"] = Callback(move, button)
         button.grid(row = i // 4, column = i % 4)
         buttons.append(button)
+        i += 1
 
 def renew():
     global buttons
