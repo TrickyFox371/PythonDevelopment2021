@@ -59,8 +59,9 @@ def fill():
             i += 1
             continue
         button = tk.Button(master = frameGame,
-                           height = 10,
-                           width = 20,
+                           height = 2,
+                           width = 5,
+                           font = font.Font(size = 30),
                            text = str(name))
         button["command"] = Callback(move, button)
         button.grid(row = i // 4, column = i % 4)
@@ -79,17 +80,20 @@ def end():
 
 
 new = tk.Button(master = frameMenu,
-                height = 5,
-                width = 41,
+                height = 1,
+                width = 7,
+                font = font.Font(size = 30),
                 text = "New")
 new["command"] = renew
 new.grid(row = 0, column = 0)
 ex = tk.Button(master = frameMenu,
-               height = 5,
-               width = 41,
+               height = 1,
+               width = 7,
+               font = font.Font(size = 30),
                text = "Exit")
 ex["command"] = end
 ex.grid(row = 0, column = 1)
 fill()
-print(names)
+window.update_idletasks()
+window.minsize(window.winfo_width(), window.winfo_height())
 window.mainloop()
