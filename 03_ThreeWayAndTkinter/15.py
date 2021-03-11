@@ -8,12 +8,14 @@ from random import shuffle
 
 names = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 window = tk.Tk()
+window.title("15")
 buttons = []
+moves = 0
 space_row = 0
 space_col = 0
 frameMenu = tk.Frame(master = window)
 frameMenu.grid(row = 0, column = 0, sticky = "NSEW")
-frameGame = tk.Frame(master = window)
+frameGame = tk.Frame(master = window, bg = "grey")
 frameGame.grid(row = 1, column = 0, sticky = "NSEW")
 
 Grid.rowconfigure(window, 0, weight = 1)
@@ -53,6 +55,8 @@ def check():
 def move(button):
     global space_row
     global space_col
+    global moves
+    moves = moves + 1
     info = button.grid_info()
     if (space_row == info["row"] and abs(space_col - info["column"]) == 1) or \
        (space_col == info["column"] and abs(space_row - info["row"]) == 1):
@@ -62,7 +66,7 @@ def move(button):
         space_col = info["column"]
         button.grid(row = tmp_row, column = tmp_col)
     if check():
-        messagebox.showwarning(title = "win", message = "You win!")
+        messagebox.showwarning(title = "win", message = "You win!\nTotal moves: " + str(moves))
         renew()
 
 def fill():
@@ -88,10 +92,18 @@ def fill():
             space_col = i % 4
             i += 1
             continue
+        color = "green"
+        if ((i // 4 + i % 4) % 2 == 1):
+            color = "black"
+
         button = tk.Button(master = frameGame,
                            height = 2,
                            width = 5,
                            font = font.Font(size = 30),
+                           bg = color,
+                           fg = "white",
+                           activebackground = "grey",
+                           activeforeground = "grey",
                            text = str(name))
         button["command"] = Callback(move, button)
         button.grid(row = i // 4, column = i % 4, sticky = "NSEW")
@@ -100,19 +112,25 @@ def fill():
 
 def renew():
     global buttons
+    global moves
     for button in buttons:
         button.grid_remove()
     buttons = []
+    moves = 0
     fill()
 
 def end():
-   window.destroy()
+    window.destroy()
 
 
 new = tk.Button(master = frameMenu,
                 height = 1,
                 width = 7,
                 font = font.Font(size = 30),
+                bg = "black",
+                fg = "white",
+                activebackground = "grey",
+                activeforeground = "grey",
                 text = "New")
 new["command"] = renew
 new.grid(row = 0, column = 0, sticky = "NSEW")
@@ -120,6 +138,10 @@ ex = tk.Button(master = frameMenu,
                height = 1,
                width = 7,
                font = font.Font(size = 30),
+               bg = "green",
+               fg = "white",
+               activebackground = "grey",
+               activeforeground = "grey",
                text = "Exit")
 ex["command"] = end
 ex.grid(row = 0, column = 1, sticky = "NSEW")
