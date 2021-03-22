@@ -24,9 +24,24 @@ class GraphicsWindow(tk.Frame):
         self.canvas.grid(row = 0, column = 0, sticky = "NSEW")
         self.ovals = []
         self.canvas.bind("<Button-1>", self.create_oval)
+        self.canvas.bind("<ButtonRelease-1>", self.restore_state)
 
     def create_oval(self, event):
-        self.ovals.append(self.canvas.create_oval(event.x, event.y, event.x + 100, event.y + 50))
+        self.ovals.append(self.canvas.create_oval(event.x, event.y, event.x, event.y))
+        self.cur_x = event.x
+        self.cur_y = event.y
+        self.canvas.bind("<Motion>", self.resize_oval)
+
+    def resize_oval(self, event):
+        x0, y0, x1, y1 =  self.canvas.coords(self.ovals[len(self.ovals) - 1])
+        self.canvas.coords(self.ovals[len(self.ovals) - 1],
+                           min(self.cur_x, event.x),
+                           min(self.cur_y, event.y),
+                           max(self.cur_x, event.x),
+                           max(self.cur_y, event.y))
+
+    def restore_state(self, event):
+        self.canvas.unbind("<Motion>")
 
 root = tk.Tk()
 app = GraphicsWindow(master = root, title = "Graphics")
