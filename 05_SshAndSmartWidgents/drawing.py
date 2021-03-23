@@ -93,7 +93,7 @@ class GraphicsWindow(tk.Frame):
 
     def create_widgets(self):
         self.canvas = tk.Canvas(self, bg = "cyan", width = 800, height = 600)
-        self.canvas.grid(row = 0, column = 0, sticky = "NSEW")
+        self.canvas.pack(fill = "both", expand = True)
         self.ovals = []
         self.canvas.bind("<Button-1>", self.create_oval)
         self.canvas.bind("<ButtonRelease-1>", self.restore_state)
