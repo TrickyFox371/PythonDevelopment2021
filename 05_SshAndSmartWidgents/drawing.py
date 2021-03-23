@@ -158,6 +158,8 @@ class GraphicsWindow(tk.Frame):
             words = string.split(" ")
             while " " in words:
                 words.remove(" ")
+            while "" in words:
+                words.remove("")
             if len(words) != 7:
                 self.text.tag_add(str(i), str(i + 1) + ".0", str(i + 1) + "." + str(len(string)))
                 self.text.tag_config(str(i), background = "red")
